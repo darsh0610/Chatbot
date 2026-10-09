@@ -34,10 +34,51 @@ userInput.addEventListener('keydown', (e) => {
 
 sendBtn.addEventListener('click', sendMessage);
 
+// ---- Tab switching ----
+const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+sidebarTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    sidebarTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const panelId = 'tab-' + tab.dataset.tab;
+    const targetPanel = document.getElementById(panelId);
+    if (targetPanel) {
+      targetPanel.classList.add('active');
+    }
+  });
+});
+
+// ---- Topic search filter ----
+const topicSearchInput = document.getElementById('topicSearchInput');
+topicSearchInput?.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const groups = document.querySelectorAll('#tab-topics .topic-group');
+  groups.forEach(group => {
+    let hasVisible = false;
+    const btns = group.querySelectorAll('.quick-btn');
+    btns.forEach(btn => {
+      const match = btn.textContent.toLowerCase().includes(query) || (btn.dataset.msg || '').toLowerCase().includes(query);
+      btn.style.display = match ? 'flex' : 'none';
+      if (match) hasVisible = true;
+    });
+    group.style.display = hasVisible ? 'block' : 'none';
+    const divider = group.nextElementSibling;
+    if (divider && divider.classList.contains('recent-divider')) {
+      divider.style.display = hasVisible ? 'block' : 'none';
+    }
+  });
+});
+
 // ---- Quick topic buttons ----
 document.querySelectorAll('.quick-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (!btn.dataset.msg) return;
     userInput.value = btn.dataset.msg;
+    sidebarTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-tab="chat"]')?.classList.add('active');
+    document.getElementById('tab-chat')?.classList.add('active');
     sidebar.classList.remove('open');
     sendMessage();
   });

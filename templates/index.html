@@ -86,15 +86,35 @@ html, body {
   border-bottom: 1px solid var(--border-muted);
 }
 .sidebar-tab {
-  padding: 6px 12px; font-size: 12px; font-weight: 500; color: var(--text-2);
+  padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--text-2);
   border-radius: 6px 6px 0 0; cursor: pointer; transition: all var(--transition);
-  background: transparent; border: none;
+  background: transparent; border: none; border-bottom: 2px solid transparent;
 }
-.sidebar-tab.active { color: #ffffff; background: var(--bg-subtle); border-bottom: 2px solid #ffffff; }
+.sidebar-tab:hover { color: #ffffff; }
+.sidebar-tab.active { color: #ffffff; background: var(--bg-subtle); border-bottom: 2px solid #ffffff; font-weight: 600; }
 
-.sidebar-section {
-  flex: 1; padding: 16px 14px; overflow-y: auto;
+.sidebar-body {
+  flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0;
 }
+.tab-panel {
+  display: none; flex: 1; padding: 14px 12px; overflow-y: auto; flex-direction: column; min-height: 0;
+}
+.tab-panel.active { display: flex; }
+.tab-panel::-webkit-scrollbar { width: 4px; }
+.tab-panel::-webkit-scrollbar-track { background: transparent; }
+.tab-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.tab-panel::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+.topic-search-wrap { margin-bottom: 12px; }
+.topic-search-input {
+  width: 100%; background: #0c0c10; border: 1px solid var(--border);
+  color: #ffffff; padding: 7px 11px; border-radius: var(--radius-sm);
+  font-size: 11.5px; font-family: inherit; outline: none; transition: all var(--transition);
+}
+.topic-search-input:focus { border-color: #ffffff; box-shadow: 0 0 10px rgba(255, 255, 255, 0.12); }
+.topic-search-input::placeholder { color: var(--text-3); font-size: 11px; }
+.topic-group { margin-bottom: 6px; }
+
 .sidebar-label {
   font-size: 10px; font-weight: 600; letter-spacing: 1px;
   text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; padding-left: 4px;
@@ -111,6 +131,37 @@ html, body {
   background: #121216; border-color: var(--border);
   color: #ffffff; transform: translateX(2px);
 }
+
+/* Recent searches */
+.recent-divider {
+  height: 1px; background: var(--border-muted); margin: 14px 0;
+}
+.recent-item {
+  width: 100%; text-align: left; background: transparent;
+  border: 1px solid transparent; color: var(--text-2);
+  padding: 7px 12px; border-radius: var(--radius-sm); margin-bottom: 3px;
+  font-size: 12px; font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: all var(--transition); white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.recent-item:hover { background: #121216; border-color: var(--border); color: #ffffff; }
+.recent-item .ri-icon { font-size: 11px; flex-shrink: 0; color: var(--text-3); }
+.recent-item .ri-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.recent-empty {
+  font-size: 11.5px; color: var(--text-3); text-align: center;
+  padding: 18px 0; font-family: 'JetBrains Mono', monospace;
+}
+.clear-recent-btn {
+  background: none; border: none; color: var(--text-3); font-size: 10px;
+  cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: color var(--transition);
+  font-family: 'JetBrains Mono', monospace; margin-left: auto;
+}
+.clear-recent-btn:hover { color: #ffffff; }
+.recent-header {
+  display: flex; align-items: center; margin-bottom: 10px;
+}
+.recent-header .sidebar-label { margin-bottom: 0; }
 
 .sidebar-footer {
   padding: 14px; border-top: 1px solid var(--border);
@@ -367,18 +418,83 @@ html, body {
       </div>
 
       <div class="sidebar-tabs">
-        <button class="sidebar-tab active">Agent Chat</button>
-        <button class="sidebar-tab">Topics</button>
+        <button class="sidebar-tab active" data-tab="chat" id="tabBtnChat">Agent Chat</button>
+        <button class="sidebar-tab" data-tab="topics" id="tabBtnTopics">Topics</button>
       </div>
 
-      <div class="sidebar-section">
-        <p class="sidebar-label">Quick Actions / Context</p>
-        <button class="quick-btn" data-msg="What ML and AI courses should I take in 3rd year engineering?"><span>📚</span> @ML & AI Courses</button>
-        <button class="quick-btn" data-msg="Give me the best study tips for engineering exams."><span>✏️</span> @Study Tips</button>
-        <button class="quick-btn" data-msg="What are the best career paths after a CS engineering degree?"><span>💼</span> @Career Paths</button>
-        <button class="quick-btn" data-msg="How do I build a strong resume as an engineering student?"><span>📄</span> @Resume Help</button>
-        <button class="quick-btn" data-msg="What programming languages should I learn in college?"><span>💻</span> @Languages</button>
-        <button class="quick-btn" data-msg="How can I manage my time better as a student?"><span>⏰</span> @Time Management</button>
+      <div class="sidebar-body">
+        <!-- Panel 1: Agent Chat -->
+        <div class="tab-panel active" id="tab-chat">
+          <div class="recent-header">
+            <p class="sidebar-label">Recent Queries</p>
+            <button class="clear-recent-btn" id="clearRecentBtn" title="Clear query history">Clear</button>
+          </div>
+          <div id="recentList" class="recent-list"></div>
+
+          <div class="recent-divider"></div>
+
+          <p class="sidebar-label">Quick Actions / Context</p>
+          <button class="quick-btn" data-msg="What ML and AI courses should I take in 3rd year engineering?"><span>📚</span> @ML & AI Courses</button>
+          <button class="quick-btn" data-msg="Give me the best study tips for engineering exams."><span>✏️</span> @Study Tips</button>
+          <button class="quick-btn" data-msg="What are the best career paths after a CS engineering degree?"><span>💼</span> @Career Paths</button>
+          <button class="quick-btn" data-msg="How do I build a strong resume as an engineering student?"><span>📄</span> @Resume Help</button>
+          <button class="quick-btn" data-msg="What programming languages should I learn in college?"><span>💻</span> @Languages</button>
+          <button class="quick-btn" data-msg="How can I manage my time better as a student?"><span>⏰</span> @Time Management</button>
+        </div>
+
+        <!-- Panel 2: Topics Explorer -->
+        <div class="tab-panel" id="tab-topics">
+          <div class="topic-search-wrap">
+            <input type="text" id="topicSearchInput" class="topic-search-input" placeholder="Search topics..." autocomplete="off" />
+          </div>
+
+          <div class="topic-group">
+            <p class="sidebar-label">🤖 AI & Data Science</p>
+            <button class="quick-btn" data-msg="What ML and AI courses should I take in 3rd year engineering?"><span>🧠</span> @ML & AI Courses</button>
+            <button class="quick-btn" data-msg="How do I get into Machine Learning and Deep Learning as a beginner?"><span>⚡</span> @Deep Learning Path</button>
+            <button class="quick-btn" data-msg="What math fundamentals do I need to learn for Artificial Intelligence?"><span>📐</span> @Math for AI</button>
+            <button class="quick-btn" data-msg="What are the best open-source AI projects to contribute to as a student?"><span>🌐</span> @AI Open Source</button>
+          </div>
+
+          <div class="recent-divider"></div>
+
+          <div class="topic-group">
+            <p class="sidebar-label">💼 Career & Placements</p>
+            <button class="quick-btn" data-msg="What are the best career paths after a CS engineering degree?"><span>🎯</span> @Career Paths</button>
+            <button class="quick-btn" data-msg="How do I build a strong software engineering resume that passes ATS?"><span>📄</span> @Resume Help</button>
+            <button class="quick-btn" data-msg="How should I prepare for technical coding interviews and DSA rounds?"><span>💡</span> @Coding Interviews</button>
+            <button class="quick-btn" data-msg="How do I find software engineering internships for summer?"><span>💼</span> @Internship Search</button>
+          </div>
+
+          <div class="recent-divider"></div>
+
+          <div class="topic-group">
+            <p class="sidebar-label">📚 Academics & Study Tips</p>
+            <button class="quick-btn" data-msg="Give me the best study tips for engineering exams."><span>✏️</span> @Study Tips</button>
+            <button class="quick-btn" data-msg="How can I manage my time better as an engineering student?"><span>⏰</span> @Time Management</button>
+            <button class="quick-btn" data-msg="How do I maintain a high GPA while building personal coding projects?"><span>📊</span> @GPA & Project Balance</button>
+            <button class="quick-btn" data-msg="How to effectively prepare for semester final exams in one week?"><span>🔥</span> @Exam Sprint Plan</button>
+          </div>
+
+          <div class="recent-divider"></div>
+
+          <div class="topic-group">
+            <p class="sidebar-label">💻 Tech Stack & Projects</p>
+            <button class="quick-btn" data-msg="What programming languages should I learn in college?"><span>💻</span> @Languages to Learn</button>
+            <button class="quick-btn" data-msg="What are top-tier portfolio projects that impress tech recruiters?"><span>🚀</span> @Resume Projects</button>
+            <button class="quick-btn" data-msg="Explain the Full-Stack Web Development roadmap for 2026."><span>🌐</span> @Full Stack Roadmap</button>
+            <button class="quick-btn" data-msg="How should I start learning System Design as a student?"><span>🏗️</span> @System Design Basics</button>
+          </div>
+
+          <div class="recent-divider"></div>
+
+          <div class="topic-group">
+            <p class="sidebar-label">🔬 Research & Higher Studies</p>
+            <button class="quick-btn" data-msg="How do I apply for a Master's (MS in CS) in the US or Europe?"><span>🌍</span> @MS in CS Abroad</button>
+            <button class="quick-btn" data-msg="How can an undergraduate student write and publish a research paper?"><span>📑</span> @Research Papers</button>
+            <button class="quick-btn" data-msg="Should I do competitive programming or focus on building products?"><span>⚔️</span> @CP vs Development</button>
+          </div>
+        </div>
       </div>
 
       <div class="sidebar-footer">
@@ -452,13 +568,13 @@ html, body {
   <script>
 /* ====== Cursor AI Agent Logic ====== */
 
-const chatMessages = document.getElementById('chatMessages');
-const userInput    = document.getElementById('userInput');
-const sendBtn      = document.getElementById('sendBtn');
-const resetBtn     = document.getElementById('resetBtn');
+const chatMessages   = document.getElementById('chatMessages');
+const userInput      = document.getElementById('userInput');
+const sendBtn        = document.getElementById('sendBtn');
+const resetBtn       = document.getElementById('resetBtn');
 const resetBtnHeader = document.getElementById('resetBtnHeader');
-const menuToggle   = document.getElementById('menuToggle');
-const sidebar      = document.querySelector('.sidebar');
+const menuToggle     = document.getElementById('menuToggle');
+const sidebar        = document.querySelector('.sidebar');
 
 // ---- Sidebar toggle ----
 menuToggle?.addEventListener('click', () => sidebar.classList.toggle('open'));
@@ -469,6 +585,96 @@ document.addEventListener('click', (e) => {
     sidebar.classList.remove('open');
   }
 });
+
+// ---- Tab switching ----
+const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+sidebarTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    sidebarTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const panelId = 'tab-' + tab.dataset.tab;
+    const targetPanel = document.getElementById(panelId);
+    if (targetPanel) {
+      targetPanel.classList.add('active');
+    }
+    if (tab.dataset.tab === 'chat') renderRecent('recentList');
+  });
+});
+
+// ---- Topic search filter ----
+const topicSearchInput = document.getElementById('topicSearchInput');
+topicSearchInput?.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const groups = document.querySelectorAll('#tab-topics .topic-group');
+  groups.forEach(group => {
+    let hasVisible = false;
+    const btns = group.querySelectorAll('.quick-btn');
+    btns.forEach(btn => {
+      const match = btn.textContent.toLowerCase().includes(query) || (btn.dataset.msg || '').toLowerCase().includes(query);
+      btn.style.display = match ? 'flex' : 'none';
+      if (match) hasVisible = true;
+    });
+    group.style.display = hasVisible ? 'block' : 'none';
+    const divider = group.nextElementSibling;
+    if (divider && divider.classList.contains('recent-divider')) {
+      divider.style.display = hasVisible ? 'block' : 'none';
+    }
+  });
+});
+
+// ---- Recent Searches (localStorage) ----
+const RECENT_KEY = 'acadbot_recent';
+const MAX_RECENT = 8;
+
+function getRecent() {
+  try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveRecent(list) {
+  localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+}
+
+function addRecent(query) {
+  let list = getRecent().filter(q => q !== query);
+  list.unshift(query);
+  if (list.length > MAX_RECENT) list = list.slice(0, MAX_RECENT);
+  saveRecent(list);
+  renderRecent('recentList');
+}
+
+function renderRecent(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const list = getRecent();
+  if (!list.length) {
+    container.innerHTML = '<p class="recent-empty">No recent queries yet</p>';
+    return;
+  }
+  container.innerHTML = list.map(q =>
+    `<button class="recent-item" data-msg="${q.replace(/"/g, '&quot;')}">
+       <span class="ri-icon">🕐</span>
+       <span class="ri-text">${q.replace(/</g, '&lt;')}</span>
+     </button>`
+  ).join('');
+  container.querySelectorAll('.recent-item').forEach(item => {
+    item.addEventListener('click', () => {
+      userInput.value = item.dataset.msg;
+      sidebar.classList.remove('open');
+      sendMessage();
+    });
+  });
+}
+
+// Clear button
+document.getElementById('clearRecentBtn')?.addEventListener('click', () => {
+  saveRecent([]);
+  renderRecent('recentList');
+});
+
+// Init recent searches
+renderRecent('recentList');
 
 // ---- Auto-resize textarea ----
 userInput.addEventListener('input', () => {
@@ -486,10 +692,16 @@ userInput.addEventListener('keydown', (e) => {
 
 sendBtn.addEventListener('click', sendMessage);
 
-// ---- Quick topic buttons ----
+// ---- Quick topic buttons (switch to chat tab after sending) ----
 document.querySelectorAll('.quick-btn, .context-chip').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (!btn.dataset.msg) return;
     userInput.value = btn.dataset.msg;
+    // Activate chat tab
+    sidebarTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('[data-tab="chat"]')?.classList.add('active');
+    document.getElementById('tab-chat')?.classList.add('active');
     sidebar.classList.remove('open');
     sendMessage();
   });
@@ -523,6 +735,7 @@ async function sendMessage() {
   const text = userInput.value.trim();
   if (!text || sendBtn.disabled) return;
 
+  addRecent(text);          // ← save to recent searches
   removeWelcome();
   appendMessage('user', text);
   userInput.value = '';
