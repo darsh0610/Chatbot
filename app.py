@@ -6,7 +6,7 @@ Optimized for local running and Vercel Serverless deployment.
 """
 
 import os
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, send_from_directory
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
@@ -91,9 +91,18 @@ def reset():
     return jsonify({"status": "ok"})
 
 
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.static_folder, filename)
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>', methods=["GET", "POST"])
 def catch_all(path):
+    if path.startswith("static/"):
+        filename = path[len("static/"):]
+        return send_from_directory(app.static_folder, filename)
+
     if request.method == "POST":
         if path.endswith("chat"):
             return chat()
