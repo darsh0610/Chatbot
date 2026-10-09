@@ -79,7 +79,6 @@ def chat():
         history_data.append({"role": "user", "content": user_message})
         history_data.append({"role": "assistant", "content": reply})
 
-        # Keep recent 20 messages to keep cookie size small
         if len(history_data) > 20:
             history_data = history_data[-20:]
 
