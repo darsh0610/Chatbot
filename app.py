@@ -43,8 +43,9 @@ def get_llm():
 
 
 @app.route("/chat", methods=["POST"])
+@app.route("/api/index/chat", methods=["POST"])
 def chat():
-    data = request.get_json() or {}
+    data = request.get_json(silent=True) or {}
     user_message = data.get("message", "").strip()
 
     if not user_message:
@@ -86,6 +87,7 @@ def chat():
 
 
 @app.route("/reset", methods=["POST"])
+@app.route("/api/index/reset", methods=["POST"])
 def reset():
     session.pop("history", None)
     return jsonify({"status": "ok"})
@@ -104,10 +106,12 @@ def catch_all(path):
         return send_from_directory(app.static_folder, filename)
 
     if request.method == "POST":
-        if path.endswith("chat"):
+        data = request.get_json(silent=True)
+        if (data and "message" in data) or path.endswith("chat") or request.path.endswith("chat"):
             return chat()
-        if path.endswith("reset"):
+        if path.endswith("reset") or request.path.endswith("reset"):
             return reset()
+
     return render_template("index.html")
 
 

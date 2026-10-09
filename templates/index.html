@@ -405,7 +405,7 @@ html, body {
         <div class="welcome-block">
           <div class="welcome-avatar">🎓</div>
           <h1 class="welcome-title">Hi, I'm your AI Course Advisor!</h1>
-          <p class="welcome-sub">Ask me anything about courses, study strategies, career paths, or academic planning. I'm here to help you succeed.</p>
+          <p class="welcome-sub">Ask me anything about courses, study strategies, career paths, or academic planning.</p>
           <div class="welcome-chips">
             <span class="chip" data-msg="What should I study in 2nd year CS?">What to study in 2nd year?</span>
             <span class="chip" data-msg="How do I get into machine learning?">How to get into ML?</span>
@@ -520,17 +520,27 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text })
     });
-    const data = await res.json();
+
     typingEl.remove();
 
-    if (data.reply) {
-      appendMessage('bot', data.reply);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.reply) {
+        appendMessage('bot', data.reply);
+      } else {
+        appendMessage('bot', `⚠️ ${data.error || 'No response from model.'}`);
+      }
     } else {
-      appendMessage('bot', `⚠️ Error: ${data.error || 'Unknown error'}`);
+      let errText = `Status ${res.status}`;
+      try {
+        const data = await res.json();
+        if (data.error) errText = data.error;
+      } catch (e) {}
+      appendMessage('bot', `⚠️ ${errText}`);
     }
   } catch (err) {
     typingEl.remove();
-    appendMessage('bot', '⚠️ Could not connect to server. Make sure the Flask app is running.');
+    appendMessage('bot', `⚠️ Connection error: ${err.message}`);
   } finally {
     setSending(false);
     userInput.focus();

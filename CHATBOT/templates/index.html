@@ -520,17 +520,27 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: text })
     });
-    const data = await res.json();
+
     typingEl.remove();
 
-    if (data.reply) {
-      appendMessage('bot', data.reply);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.reply) {
+        appendMessage('bot', data.reply);
+      } else {
+        appendMessage('bot', `⚠️ ${data.error || 'No response from model.'}`);
+      }
     } else {
-      appendMessage('bot', `⚠️ Error: ${data.error || 'Unknown error'}`);
+      let errText = `Status ${res.status}`;
+      try {
+        const data = await res.json();
+        if (data.error) errText = data.error;
+      } catch (e) {}
+      appendMessage('bot', `⚠️ ${errText}`);
     }
   } catch (err) {
     typingEl.remove();
-    appendMessage('bot', '⚠️ Could not connect to server. Make sure the Flask app is running.');
+    appendMessage('bot', `⚠️ Connection error: ${err.message}`);
   } finally {
     setSending(false);
     userInput.focus();
