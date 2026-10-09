@@ -9,59 +9,60 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
 /* =============================================
-   AcadBot – Premium Monochrome Black/Grey UI
+   AcadBot – Apple iOS / macOS Frosted Glass UI
    ============================================= */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:           #09090b;
-  --bg-2:         #121215;
-  --surface:      rgba(255, 255, 255, 0.03);
-  --surface-2:    rgba(255, 255, 255, 0.07);
-  --border:       rgba(255, 255, 255, 0.08);
-  --border-2:     rgba(255, 255, 255, 0.16);
-  --accent:       #ffffff;
-  --accent-2:     #e4e4e7;
-  --accent-glow:  rgba(255, 255, 255, 0.15);
-  --user-bg:      linear-gradient(135deg, #27272a, #18181b);
-  --bot-bg:       rgba(255, 255, 255, 0.03);
-  --text:         #f4f4f5;
-  --text-2:       #a1a1aa;
-  --text-3:       #71717a;
-  --success:      #22c55e;
+  --bg:           #08080a;
+  --bg-2:         #111115;
+  --surface:      rgba(255, 255, 255, 0.04);
+  --surface-2:    rgba(255, 255, 255, 0.08);
+  --border:       rgba(255, 255, 255, 0.1);
+  --border-2:     rgba(255, 255, 255, 0.18);
+  --accent:       #0a84ff;
+  --accent-2:     #5e5ce6;
+  --accent-glow:  rgba(10, 132, 255, 0.35);
+  --user-bg:      linear-gradient(135deg, rgba(10, 132, 255, 0.9), rgba(0, 113, 227, 0.8));
+  --bot-bg:       rgba(255, 255, 255, 0.07);
+  --text:         #f5f5f7;
+  --text-2:       #8e8e93;
+  --text-3:       #636366;
+  --success:      #30d158;
   --sidebar-w:    280px;
-  --radius:       16px;
-  --radius-sm:    10px;
-  --shadow:       0 8px 32px rgba(0, 0, 0, 0.8);
-  --transition:   0.2s ease;
+  --radius:       20px;
+  --radius-sm:    12px;
+  --shadow:       0 12px 40px rgba(0, 0, 0, 0.6);
+  --transition:   0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html, body {
   height: 100%;
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Text', 'SF Pro Display', sans-serif;
   background: var(--bg);
   color: var(--text);
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Ambient Silver & Charcoal Orbs ---- */
+/* ---- Apple Ambient Glow Orbs ---- */
 .bg-orbs {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   overflow: hidden;
 }
 .orb {
-  position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.2;
-  animation: drift 22s ease-in-out infinite;
+  position: absolute; border-radius: 50%; filter: blur(140px); opacity: 0.22;
+  animation: drift 25s ease-in-out infinite;
 }
-.orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(255,255,255,0.12), rgba(39,39,42,0.02)); top: -200px; left: -100px; animation-delay: 0s; }
-.orb-2 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(161,161,170,0.1), transparent); bottom: -150px; right: -100px; animation-delay: -8s; }
-.orb-3 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.06), transparent); top: 35%; left: 35%; animation-delay: -14s; }
+.orb-1 { width: 750px; height: 750px; background: radial-gradient(circle, rgba(10,132,255,0.4), rgba(94,92,230,0.1)); top: -250px; left: -150px; animation-delay: 0s; }
+.orb-2 { width: 650px; height: 650px; background: radial-gradient(circle, rgba(191,90,242,0.35), transparent); bottom: -200px; right: -150px; animation-delay: -10s; }
+.orb-3 { width: 550px; height: 550px; background: radial-gradient(circle, rgba(10,132,255,0.25), transparent); top: 30%; left: 30%; animation-delay: -16s; }
 
 @keyframes drift {
   0%, 100% { transform: translate(0,0) scale(1); }
-  33%       { transform: translate(30px,-40px) scale(1.06); }
-  66%       { transform: translate(-20px,30px) scale(0.94); }
+  33%       { transform: translate(40px,-50px) scale(1.05); }
+  66%       { transform: translate(-30px,40px) scale(0.95); }
 }
 
 /* ---- App Layout ---- */
@@ -74,8 +75,9 @@ html, body {
 .sidebar {
   width: var(--sidebar-w);
   flex-shrink: 0;
-  background: rgba(12, 12, 15, 0.95);
-  backdrop-filter: blur(24px);
+  background: rgba(18, 18, 22, 0.8);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column;
   transition: transform var(--transition);
@@ -90,32 +92,33 @@ html, body {
   display: flex; align-items: center; gap: 12px;
 }
 .logo-icon {
-  font-size: 24px;
-  background: #ffffff;
-  color: #09090b;
+  font-size: 22px;
+  background: linear-gradient(135deg, #0a84ff, #5e5ce6);
+  color: #ffffff;
   border-radius: 12px; padding: 6px 10px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(10, 132, 255, 0.4);
 }
-.logo-title { display: block; font-size: 17px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px; }
-.logo-sub   { display: block; font-size: 11px; font-weight: 500; color: var(--text-3); letter-spacing: 0.5px; text-transform: uppercase; }
+.logo-title { display: block; font-size: 17px; font-weight: 700; color: #ffffff; letter-spacing: -0.4px; }
+.logo-sub   { display: block; font-size: 11px; font-weight: 500; color: var(--text-2); letter-spacing: 0.5px; text-transform: uppercase; }
 
 .sidebar-section {
   flex: 1; padding: 20px 16px; overflow-y: auto;
 }
 .sidebar-label {
-  font-size: 10px; font-weight: 600; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; padding-left: 4px;
+  font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; padding-left: 4px;
 }
 .quick-btn {
-  width: 100%; text-align: left; background: var(--surface);
-  border: 1px solid var(--border); color: var(--text-2);
-  padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 6px;
+  width: 100%; text-align: left; background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-2);
+  padding: 11px 14px; border-radius: var(--radius-sm); margin-bottom: 7px;
   font-size: 13px; font-family: inherit; cursor: pointer;
   transition: all var(--transition);
+  backdrop-filter: blur(10px);
 }
 .quick-btn:hover {
-  background: var(--surface-2); border-color: var(--border-2);
-  color: #ffffff; transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff; transform: translateX(3px); box-shadow: 0 4px 14px rgba(0,0,0,0.2);
 }
 
 .sidebar-footer {
@@ -123,12 +126,12 @@ html, body {
 }
 .reset-btn {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
-  background: var(--surface); border: 1px solid var(--border-2);
-  color: var(--text-2); padding: 10px; border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-2);
+  color: var(--text); padding: 11px; border-radius: var(--radius-sm);
   font-size: 13px; font-family: inherit; cursor: pointer;
   transition: all var(--transition);
 }
-.reset-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: #ffffff; color: #ffffff; }
+.reset-btn:hover { background: rgba(10, 132, 255, 0.15); border-color: var(--accent); color: #ffffff; }
 .sidebar-powered {
   text-align: center; font-size: 10px; color: var(--text-3); margin-top: 10px;
 }
@@ -137,16 +140,19 @@ html, body {
 .chat-main {
   flex: 1; display: flex; flex-direction: column; overflow: hidden;
   min-width: 0;
-  background: radial-gradient(circle at 50% 0%, #141419 0%, #09090b 70%);
+  background: radial-gradient(circle at 50% 0%, #15151c 0%, #08080a 80%);
 }
 
 /* Header */
 .chat-header {
   display: flex; align-items: center; gap: 14px;
   padding: 16px 24px;
-  background: rgba(12, 12, 15, 0.85); backdrop-filter: blur(24px);
+  background: rgba(18, 18, 22, 0.75);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  z-index: 10;
 }
 .menu-toggle {
   display: none; background: none; border: none; color: var(--text-2);
@@ -164,7 +170,7 @@ html, body {
   0%, 100% { box-shadow: 0 0 8px var(--success); }
   50%       { box-shadow: 0 0 16px var(--success); }
 }
-.header-title { font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: -0.2px; }
+.header-title { font-size: 15px; font-weight: 600; color: #ffffff; letter-spacing: -0.3px; }
 .header-model { font-size: 11px; color: var(--text-3); margin-left: 4px; display: none; }
 .header-actions { display: flex; gap: 8px; }
 .icon-btn {
@@ -175,25 +181,32 @@ html, body {
 }
 .icon-btn:hover { background: var(--surface-2); color: #ffffff; border-color: var(--border-2); }
 
-/* Messages */
+/* ===================== APPLE TEXTING AREA ===================== */
 .chat-messages {
-  flex: 1; overflow-y: auto; padding: 32px 24px;
+  flex: 1; overflow-y: auto; padding: 32px 28px;
   display: flex; flex-direction: column; gap: 20px;
   scroll-behavior: smooth;
 }
-.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar { width: 6px; }
 .chat-messages::-webkit-scrollbar-track { background: transparent; }
-.chat-messages::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
+.chat-messages::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
 
-/* Welcome */
+/* Welcome Screen */
 .welcome-block {
   display: flex; flex-direction: column; align-items: center;
-  text-align: center; padding: 40px 20px; max-width: 560px; margin: auto;
-  animation: fadeUp 0.5s ease both;
+  text-align: center; padding: 48px 24px; max-width: 560px; margin: auto;
+  animation: appleSpring 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 .welcome-avatar {
-  font-size: 52px; margin-bottom: 20px;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+  font-size: 56px; margin-bottom: 20px;
+  filter: drop-shadow(0 0 24px rgba(10, 132, 255, 0.5));
   animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
@@ -201,77 +214,98 @@ html, body {
   50%       { transform: translateY(-8px); }
 }
 .welcome-title { font-size: 26px; font-weight: 700; margin-bottom: 12px; color: #ffffff; letter-spacing: -0.5px; }
-.welcome-sub { font-size: 15px; color: var(--text-2); line-height: 1.7; margin-bottom: 24px; }
+.welcome-sub { font-size: 14.5px; color: var(--text-2); line-height: 1.7; margin-bottom: 24px; }
 .welcome-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .chip {
-  padding: 8px 16px; border-radius: 100px; font-size: 13px;
-  background: var(--surface-2); border: 1px solid var(--border-2);
-  color: var(--text-2); cursor: pointer; transition: all var(--transition);
+  padding: 9px 18px; border-radius: 100px; font-size: 13px;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f5f5f7; cursor: pointer; transition: all var(--transition);
+  backdrop-filter: blur(10px);
 }
-.chip:hover { background: rgba(255, 255, 255, 0.12); border-color: #ffffff; color: #ffffff; }
+.chip:hover {
+  background: rgba(10, 132, 255, 0.25); border-color: var(--accent);
+  color: #ffffff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10, 132, 255, 0.3);
+}
 
-/* Message rows */
+/* Message Rows (Apple Smooth Animation) */
 .message-row {
-  display: flex; align-items: flex-end; gap: 10px;
-  animation: fadeUp 0.3s ease both;
+  display: flex; align-items: flex-end; gap: 12px;
+  animation: appleSpring 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .message-row.user  { flex-direction: row-reverse; }
 .message-row.bot   { flex-direction: row; }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes appleSpring {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .avatar {
   width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center; font-size: 15px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
-.user .avatar { background: #ffffff; color: #09090b; font-weight: bold; }
-.bot  .avatar { background: var(--surface-2); border: 1px solid var(--border-2); color: #ffffff; }
-
-.bubble {
-  max-width: 72%; padding: 14px 18px; border-radius: var(--radius);
-  font-size: 14.5px; line-height: 1.75; word-break: break-word;
-}
-.user .bubble {
-  background: var(--user-bg);
-  border: 1px solid var(--border-2);
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+.user .avatar { background: linear-gradient(135deg, #0a84ff, #5e5ce6); color: #ffffff; }
+.bot  .avatar {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
   color: #ffffff;
 }
-.bot .bubble {
-  background: var(--bot-bg);
-  border: 1px solid var(--border);
-  border-bottom-left-radius: 4px;
-  backdrop-filter: blur(16px);
-  color: var(--text);
+
+/* Apple Frosted Glass Message Bubbles */
+.bubble {
+  max-width: 72%; padding: 15px 20px; border-radius: 22px;
+  font-size: 14.5px; line-height: 1.68; word-break: break-word;
+  transition: all var(--transition);
 }
 
-/* Markdown-ish formatting in bot replies */
+/* User Bubble: Apple iMessage Dynamic Gradient Glass */
+.user .bubble {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.92), rgba(0, 113, 227, 0.85));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom-right-radius: 6px;
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 24px rgba(0, 113, 227, 0.35);
+}
+
+/* Bot Bubble: Apple macOS Translucent Frosted Glass */
+.bot .bubble {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom-left-radius: 6px;
+  color: #f5f5f7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 10px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Formatting inside bot replies */
 .bot .bubble p   { margin-bottom: 8px; }
+.bot .bubble p:last-child { margin-bottom: 0; }
 .bot .bubble ul, .bot .bubble ol { padding-left: 20px; margin-bottom: 8px; }
 .bot .bubble li  { margin-bottom: 4px; }
 .bot .bubble strong { color: #ffffff; font-weight: 600; }
 .bot .bubble code {
-  background: rgba(255, 255, 255, 0.08); padding: 2px 6px;
-  border-radius: 5px; font-size: 13px; font-family: 'Courier New', monospace; color: #ffffff;
+  background: rgba(255, 255, 255, 0.12); padding: 3px 7px;
+  border-radius: 6px; font-size: 13px; font-family: SFMono-Regular, Consolas, monospace; color: #ffffff;
 }
 
 .timestamp {
-  font-size: 10px; color: var(--text-3); margin-top: 4px;
-  padding: 0 4px;
+  font-size: 10.5px; color: var(--text-2); margin-top: 5px;
+  padding: 0 4px; opacity: 0.7; font-weight: 500;
 }
 .user .timestamp { text-align: right; }
 
 /* Typing indicator */
 .typing-bubble {
-  display: flex; align-items: center; gap: 5px;
-  padding: 14px 18px;
+  display: flex; align-items: center; gap: 6px;
+  padding: 16px 22px;
 }
 .typing-bubble span {
-  width: 7px; height: 7px; background: var(--text-3);
+  width: 7px; height: 7px; background: rgba(255, 255, 255, 0.6);
   border-radius: 50%; animation: bounce 1.2s ease-in-out infinite;
   display: inline-block;
 }
@@ -279,51 +313,60 @@ html, body {
 .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes bounce {
   0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-  40%           { transform: translateY(-8px); opacity: 1; }
+  40%           { transform: translateY(-7px); opacity: 1; }
 }
 
 /* ===================== INPUT AREA ===================== */
 .chat-input-area {
-  padding: 16px 24px 20px;
-  background: rgba(12, 12, 15, 0.85); backdrop-filter: blur(24px);
+  padding: 16px 28px 24px;
+  background: rgba(18, 18, 22, 0.75);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
   border-top: 1px solid var(--border); flex-shrink: 0;
+  z-index: 10;
 }
 .input-container {
   display: flex; align-items: flex-end; gap: 12px;
-  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-2);
-  border-radius: var(--radius); padding: 12px 14px;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px; padding: 12px 16px;
+  transition: all var(--transition);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 .input-container:focus-within {
-  border-color: #ffffff;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+  border-color: rgba(10, 132, 255, 0.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 24px rgba(10, 132, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
 }
 .chat-input {
   flex: 1; background: none; border: none; outline: none; resize: none;
   color: #ffffff; font-family: inherit; font-size: 14.5px;
   line-height: 1.5; max-height: 160px; overflow-y: auto;
 }
-.chat-input::placeholder { color: var(--text-3); }
+.chat-input::placeholder { color: var(--text-2); opacity: 0.65; }
 .chat-input::-webkit-scrollbar { width: 3px; }
 .chat-input::-webkit-scrollbar-thumb { background: var(--border-2); }
 
 .send-btn {
-  flex-shrink: 0; width: 38px; height: 38px;
-  background: #ffffff; border: none; border-radius: 12px; cursor: pointer;
-  color: #09090b; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 40px; height: 40px;
+  background: linear-gradient(135deg, #0a84ff, #0071e3);
+  border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer;
+  color: #ffffff; display: flex; align-items: center; justify-content: center;
   transition: all var(--transition);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 18px rgba(10, 132, 255, 0.45);
 }
-.send-btn:hover  { transform: scale(1.08); background: #f4f4f5; box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4); }
-.send-btn:active { transform: scale(0.95); }
-.send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+.send-btn:hover  { transform: scale(1.08); box-shadow: 0 6px 24px rgba(10, 132, 255, 0.65); }
+.send-btn:active { transform: scale(0.94); }
+.send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
 .input-hint {
-  font-size: 11px; color: var(--text-3); margin-top: 8px; text-align: center;
+  font-size: 11px; color: var(--text-2); margin-top: 9px; text-align: center; opacity: 0.7;
 }
 .input-hint kbd {
-  background: var(--surface-2); border: 1px solid var(--border-2);
-  border-radius: 4px; padding: 1px 5px; font-size: 10px; font-family: inherit; color: var(--text-2);
+  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 5px; padding: 1px 6px; font-size: 10px; font-family: inherit; color: #ffffff;
 }
 
 /* ===================== RESPONSIVE ===================== */
