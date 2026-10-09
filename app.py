@@ -42,11 +42,6 @@ def get_llm():
     )
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json() or {}
@@ -94,6 +89,17 @@ def chat():
 def reset():
     session.pop("history", None)
     return jsonify({"status": "ok"})
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>', methods=["GET", "POST"])
+def catch_all(path):
+    if request.method == "POST":
+        if path.endswith("chat"):
+            return chat()
+        if path.endswith("reset"):
+            return reset()
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
