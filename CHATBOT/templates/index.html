@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Course Advisor — Powered by Groq</title>
+  <meta name="description" content="Your personal AI academic advisor for engineering students. Get instant help with courses, study tips, and career guidance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="app-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">🎓</div>
+          <div class="logo-text">
+            <span class="logo-title">AcadBot</span>
+            <span class="logo-sub">AI Advisor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <p class="sidebar-label">Quick Topics</p>
+        <button class="quick-btn" data-msg="What ML and AI courses should I take in 3rd year engineering?">📚 ML & AI Courses</button>
+        <button class="quick-btn" data-msg="Give me the best study tips for engineering exams.">✏️ Study Tips</button>
+        <button class="quick-btn" data-msg="What are the best career paths after a CS engineering degree?">💼 Career Paths</button>
+        <button class="quick-btn" data-msg="How do I build a strong resume as an engineering student?">📄 Resume Help</button>
+        <button class="quick-btn" data-msg="What programming languages should I learn in college?">💻 Languages to Learn</button>
+        <button class="quick-btn" data-msg="How can I manage my time better as a student?">⏰ Time Management</button>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="reset-btn" id="resetBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          New Conversation
+        </button>
+        <p class="sidebar-powered">Powered by Groq + LangChain</p>
+      </div>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-main">
+      <header class="chat-header">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="header-info">
+          <div class="status-dot"></div>
+          <span class="header-title">AI Course Advisor</span>
+          <span class="header-model">openai/gpt-oss-120b via Groq</span>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="resetBtnHeader" title="Clear chat">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="chat-messages" id="chatMessages">
+        <!-- Welcome message -->
+        <div class="welcome-block">
+          <div class="welcome-avatar">🎓</div>
+          <h1 class="welcome-title">Hi, I'm your AI Course Advisor!</h1>
+          <p class="welcome-sub">Ask me anything about courses, study strategies, career paths, or academic planning. I'm here to help you succeed.</p>
+          <div class="welcome-chips">
+            <span class="chip" data-msg="What should I study in 2nd year CS?">What to study in 2nd year?</span>
+            <span class="chip" data-msg="How do I get into machine learning?">How to get into ML?</span>
+            <span class="chip" data-msg="Best projects for my resume?">Best resume projects?</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="input-container">
+          <textarea
+            id="userInput"
+            class="chat-input"
+            placeholder="Ask anything about courses, career, or studies..."
+            rows="1"
+            autocomplete="off"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" aria-label="Send message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
