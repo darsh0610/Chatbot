@@ -57,7 +57,7 @@ html, body {
 /* ---- App Layout ---- */
 .app-wrapper {
   position: relative; z-index: 1;
-  display: flex; height: 100vh; overflow: hidden;
+  display: flex; height: 100dvh; overflow: hidden;
 }
 
 /* ===================== SIDEBAR ===================== */
@@ -323,7 +323,7 @@ html, body {
   .menu-toggle { display: flex; }
   .header-model { display: none !important; }
   .chat-messages { padding: 20px 16px; }
-  .chat-input-area { padding: 12px 16px 16px; }
+  .chat-input-area { padding: 12px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
   .bubble { max-width: 88%; }
   .welcome-title { font-size: 20px; }
 }
